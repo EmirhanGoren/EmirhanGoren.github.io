@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emran Games — İki arkadaşın oyun stüdyosu</title>
+  <meta name="description"
+    content="Emran Games; küçük, meraklı ve biraz yaramaz bir oyun stüdyosu. Oyunlarımızı geliştiriyor ve yayınlıyoruz.">
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0d21;
+      --bg-panel: #14122a;
+      --bg-panel-2: #1b1738;
+      --purple-900: #3d1a78;
+      --purple-700: #7c3aed;
+      --purple-500: #a855f7;
+      --purple-300: #d8bbff;
+      --cyan: #3fe8e2;
+      --cyan-soft: #9df5f0;
+      --ink: #f3f0fb;
+      --ink-dim: #a89fc4;
+      --line: rgba(168, 159, 196, 0.16);
+      --radius: 18px;
+      --disp: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 900px 500px at 15% -5%, rgba(124, 58, 237, 0.20), transparent 60%),
+        radial-gradient(ellipse 700px 500px at 90% 10%, rgba(63, 232, 226, 0.10), transparent 55%);
+      background-repeat: no-repeat;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cyan-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px 1px rgba(63, 232, 226, 0.8);
+      display: inline-block;
+    }
+
+    /* ---------- pixel motif ---------- */
+    .pixel-row {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .pixel {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--cyan);
+      opacity: 0.85;
+    }
+
+    .pixel.p2 {
+      background: var(--purple-500);
+    }
+
+    .pixel.p3 {
+      background: var(--purple-300);
+      opacity: .6;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      padding: 56px 0;
+      opacity: 0.9;
+    }
+
+    .divider span {
+      width: 6px;
+      height: 6px;
+      background: var(--purple-700);
+    }
+
+    .divider span:nth-child(3n) {
+      background: var(--cyan);
+    }
+
+    .divider span:nth-child(5n) {
+      opacity: 0.4;
+    }
+
+    /* ---------- ambient floating pixels ---------- */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient i {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--cyan);
+      opacity: 0.35;
+      animation: drift 14s ease-in-out infinite;
+    }
+
+    .ambient i:nth-child(odd) {
+      background: var(--purple-500);
+    }
+
+    @keyframes drift {
+
+      0%,
+      100% {
+        transform: translateY(0) translateX(0);
+        opacity: .15;
+      }
+
+      50% {
+        transform: translateY(-26px) translateX(10px);
+        opacity: .5;
+      }
+    }
+
+    /* ---------- header ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(12, 13, 33, 0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+    }
+
+    .brand-name {
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 34px;
+      font-size: 14.5px;
+      color: var(--ink-dim);
+    }
+
+    .nav-links a {
+      transition: color .2s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan-soft);
+    }
+
+    .nav-links a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .btn {
+      font-family: var(--body);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 11px 20px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple-500), var(--purple-700));
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(124, 58, 237, 0.5);
+    }
+
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      color: var(--cyan-soft);
+      transform: translateY(-2px);
+    }
+
+    .nav .btn {
+      padding: 9px 18px;
+      font-size: 13.5px;
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 96px 0 60px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-copy .eyebrow {
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: clamp(44px, 6.6vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .glitch {
+      background: linear-gradient(100deg, var(--purple-300), var(--cyan-soft) 55%, var(--purple-500));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p.lede {
+      margin-top: 22px;
+      font-size: 18px;
+      color: var(--ink-dim);
+      max-width: 480px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      margin-top: 34px;
+      flex-wrap: wrap;
+    }
+
+    .hero-art {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-art-inner {
+      position: relative;
+      width: min(420px, 100%);
+    }
+
+    .hero-art-inner img {
+      width: 100%;
+      filter: drop-shadow(0 30px 60px rgba(124, 58, 237, 0.35));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    .tail-pixels {
+      position: absolute;
+      right: -10px;
+      bottom: 60px;
+      width: 130px;
+      height: 130px;
+      pointer-events: none;
+    }
+
+    .tail-pixels i {
+      position: absolute;
+      background: var(--cyan);
+      box-shadow: 0 0 10px 1px rgba(63, 232, 226, 0.55);
+      animation: scatter 3.6s ease-in-out infinite;
+    }
+
+    /* ---------- sections shared ---------- */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-head {
+      max-width: 640px;
+      margin-bottom: 44px;
+    }
+
+    .section-head .eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .section-head h2 {
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: clamp(30px, 3.6vw, 44px);
+      letter-spacing: -0.01em;
+    }
+
+    .section-head p {
+      margin-top: 14px;
+      color: var(--ink-dim);
+      font-size: 16.5px;
+    }
+
+    /* ---------- about ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+    }
+
+    .about-text p {
+      color: var(--ink-dim);
+      font-size: 16.5px;
+      margin-bottom: 16px;
+      max-width: 560px;
+    }
+
+    .about-text p strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .fact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .fact-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14.5px;
+    }
+
+    .fact-list li span:first-child {
+      font-family: var(--mono);
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 12px;
+    }
+
+    .fact-list li span:last-child {
+      color: var(--ink);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* ---------- games ---------- */
+    .games-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .game-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+      border-radius: var(--radius);
+      padding: 46px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 34px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(500px 260px at 90% -10%, rgba(63, 232, 226, 0.10), transparent 60%);
+      pointer-events: none;
+    }
+
+    .game-glyph {
+      width: 76px;
+      height: 76px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--purple-700), var(--purple-900));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      /* İkonun taşmaması için */
+    }
+
+    .game-glyph svg,
+    .game-glyph img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .game-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan-soft);
+      border: 1px solid rgba(63, 232, 226, 0.35);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .game-card h3 {
+      font-family: var(--disp);
+      font-size: 23px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .game-card p {
+      color: var(--ink-dim);
+      font-size: 15px;
+      max-width: 480px;
+      margin-bottom: 20px;
+    }
+
+    /* ---------- contact ---------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .contact-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 26px;
+      background: var(--bg-panel);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--purple-500);
+      background: var(--bg-panel-2);
+    }
+
+    .contact-card .ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(168, 85, 247, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-card .ico svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .contact-card h4 {
+      font-family: var(--disp);
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .contact-card span {
+      color: var(--ink-dim);
+      font-size: 13.5px;
+    }
+
+    /* ---------- reveal on scroll ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(2px);
+      transition: opacity .6s ease, transform .6s ease, filter .5s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 34px 0 44px;
+      margin-top: 40px;
+    }
+
+    .foot-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink-dim);
+      font-size: 13.5px;
+    }
+
+    .foot-brand img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 64px;
+      }
+
+      .hero-art {
+        order: -1;
+      }
+
+      .hero-art-inner {
+        width: min(280px, 70%);
+        margin: 0 auto;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .game-card {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient" id="ambient"></div>
+
+  <header>
+    <div class="nav">
+      <a class="brand" href="#top">
+        <img src="./assets/logo.png" alt="Emran Games logosu">
+        <span class="brand-name">EMRAN GAMES</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#hakkimizda">Hakkımızda</a>
+        <a href="#oyunlar">Oyunlar</a>
+        <a href="#iletisim">İletişim</a>
+      </nav>
+      <a class="btn btn-primary" href="https://play.google.com/store/apps/developer?id=EmranGames" target="_blank"
+        rel="noopener">Google Play</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">İki arkadaş · Bir stüdyo</span>
+        <h1>Küçük fikirler,<br><span class="glitch">büyük dünyalar.</span></h1>
+        <p class="lede">Emran Games; boş vakitlerini oyun yaparak dolduran iki arkadaşın kurduğu bağımsız bir oyun
+          stüdyosu. Oyunlarımızı yayınlamaya başladık.</p>
+        <div class="hero-ctas">
+          <!-- Mağaza sayfanızın URL'sine göre aşağıdaki href alanını güncelleyebilirsiniz -->
+          <a class="btn btn-primary" href="https://play.google.com/store/apps/developer?id=EmranGames" target="_blank"
+            rel="noopener">Google Play'de Takip Et</a>
+          <a class="btn btn-ghost" href="#oyunlar">Oyunlarımıza Bak</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="hero-art-inner">
+          <img src="./assets/logo.png" alt="Emran Games maskotu — mor, sırıtan, kulakları kıvrık bir yaratık">
+          <div class="tail-pixels" id="tailPixels"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="divider" id="div1"></div>
+    </div>
+
+    <section id="hakkimizda" class="wrap reveal">
+      <div class="section-head">
+        <span class="eyebrow">Stüdyo</span>
+        <h2>Gösterişli bir ofisimiz yok, ama bitmeyen bir hevesimiz var.</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p><strong>Emran Games</strong>, büyük bütçeler ya da kalabalık ekipler yerine meraktan ve bol bol gece
+            mesaisinden doğdu. İki arkadaş olarak, oynamak isteyeceğimiz oyunları yapmaya karar verdik — geri kalanını
+            yolda öğreniyoruz.</p>
+          <p>Şimdilik bu sitenin de gösterdiği gibi işler oldukça sade: oyun fikirleri bir not
+            defterinde, heyecan ise had safhada.</p>
+          <p>Sayfamızı zamanla oyunlarımız, geliştirme günlüklerimiz ve daha fazlasıyla büyüteceğiz.</p>
+        </div>
+        <ul class="fact-list">
+          <li><span>Ekip</span><span>2 kişi</span></li>
+          <li><span>Durum</span><span>Aktif Geliştirme & Yayınlama</span></li>
+          <li><span>Platform</span><span>Google Play</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="divider" id="div2"></div>
+    </div>
+
+    <section id="oyunlar" class="wrap reveal">
+      <div class="section-head">
+        <span class="eyebrow">Oyunlar</span>
+        <h2>Geliştirdiğimiz Dünyalar</h2>
+        <p>Oynamaktan ve geliştirmekten keyif aldığımız, mağazada yerini almış oyunlarımız:</p>
+      </div>
+
+      <div class="games-list">
+        <!-- OYUN 1: Dino Merge Idle -->
+        <div class="game-card">
+          <div class="game-glyph">
+            <img src="./assets/dinomerge.png" alt="Dino Merge Idle İkonu">
+          </div>
+          <div>
+            <span class="game-tag">Yayında</span>
+            <h3>Dino Merge Idle</h3>
+            <!-- AÇIKLAMA ALANI: Oyuna ait kısa açıklamayı aşağıya yazın -->
+            <p>Dino Merge Idle'a hoş geldiniz! Yeni dinozor arkadaşlar edinmeye hazır mısınız?
+
+              Jurassic döneminin en mutlu takımını kurmak için sevimli dinozorları toplayın, birleştirin ve
+              evrimleştirin.</p>
+            <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.emrangames.dinomergeidle"
+              target="_blank" rel="noopener">Google Play'de Gör</a>
+          </div>
+        </div>
+
+        <!-- OYUN 2: Jigsaw Journey -->
+        <div class="game-card">
+          <div class="game-glyph">
+            <img src="./assets/jigsawpuzzle.png" alt="Jigsaw Journey İkonu">
+          </div>
+          <div>
+            <span class="game-tag">Yayında</span>
+            <h3>Jigsaw Journey</h3>
+            <!-- AÇIKLAMA ALANI: Oyuna ait kısa açıklamayı aşağıya yazın -->
+            <p>Rahatlatıcı ve ilgi çekici bir resim bulmaca deneyimine hoş geldiniz!
+
+              Her seviyenin yeni bir meydan okuma sunduğu, güzel resimlerle dolu bir dünyaya dalın. Amacınız basit:
+              Dağınık parçaları
+              birleştirerek resmin tamamını ortaya çıkarın. Ancak ilerledikçe, bulmacalar daha karmaşık ve çözmesi daha
+              keyifli hale
+              geliyor.</p>
+            <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.emrangames.jigsawjourney"
+              target="_blank" rel="noopener">Google Play'de Gör</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="divider" id="div3"></div>
+    </div>
+
+    <section id="iletisim" class="wrap reveal">
+      <div class="section-head">
+        <span class="eyebrow">İletişim</span>
+        <h2>Bir şey mi söylemek istiyorsunuz?</h2>
+        <p>Oyunlarımızla ilgili geri dönüşleriniz, işbirlikleri veya sadece merhaba demek için bize ulaşın.</p>
+      </div>
+      <div class="contact-grid">
+        <!-- Mağaza sayfanızın tam linkini eklersiniz -->
+        <a class="contact-card" href="https://play.google.com/store/apps/developer?id=EmranGames" target="_blank"
+          rel="noopener">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 3l18 9-18 9V3z" fill="#a855f7" />
+            </svg></div>
+          <h4>Google Play</h4>
+          <span>Tüm oyunlarımız burada</span>
+        </a>
+        <a class="contact-card" href="mailto:emirhangoren74@gmail.com">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 6h18v12H3V6z" stroke="#d8bbff" stroke-width="1.6" />
+              <path d="M3 7l9 6 9-6" stroke="#d8bbff" stroke-width="1.6" />
+            </svg></div>
+          <h4>E-posta</h4>
+          <span>emirhangoren74@gmail.com</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap foot-row">
+        <div class="foot-brand">
+          <img src="./assets/logo.png" alt="Emran Games">
+          <span>© 2026 Emran Games. İki kişilik, çok fikirli bir stüdyo.</span>
+        </div>
+        <div class="pixel-row" aria-hidden="true">
+          <span class="pixel"></span><span class="pixel p2"></span><span class="pixel p3"></span><span
+            class="pixel p2"></span><span class="pixel"></span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // ambient drifting pixels
+    const ambient = document.getElementById('ambient');
+    const colors = 26;
+    for (let i = 0; i < colors; i++) {
+      const el = document.createElement('i');
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = Math.random() * 100 + 'vh';
+      el.style.animationDelay = (Math.random() * 10) + 's';
+      el.style.animationDuration = (10 + Math.random() * 10) + 's';
+      ambient.appendChild(el);
+    }
+
+    // tail pixel scatter, echoing the logo's dissolving tail
+    const tail = document.getElementById('tailPixels');
+    const spots = [[10, 10], [28, 4], [46, 18], [20, 34], [52, 40], [36, 56], [62, 60], [44, 78], [70, 30], [8, 52]];
+    spots.forEach((pos, i) => {
+      const s = document.createElement('i');
+      const size = 6 + (i % 3) * 3;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = pos[0] + '%';
+      s.style.top = pos[1] + '%';
+      s.style.animationDelay = (i * 0.22) + 's';
+      if (i % 3 === 0) s.style.background = 'var(--purple-500)';
+      tail.appendChild(s);
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `@keyframes scatter{0%,100%{opacity:.15; transform:translate(0,0);}50%{opacity:.9; transform:translate(6px,-8px);}}`;
+    document.head.appendChild(styleSheet);
+
+    // divider dots
+    ['div1', 'div2', 'div3'].forEach(id => {
+      const d = document.getElementById(id);
+      for (let i = 0; i < 60; i++) {
+        d.appendChild(document.createElement('span'));
+      }
+    });
+
+    // scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.15});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+
+</html>
