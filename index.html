@@ -449,6 +449,49 @@
       text-align: right;
     }
 
+    /* ---------- team ---------- */
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .team-card {
+      border: 1px solid var(--line);
+      background: var(--bg-panel);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--purple-500);
+    }
+
+    .team-card h4 {
+      color: var(--ink);
+      font-family: var(--disp);
+      font-size: 21px;
+      margin-bottom: 6px;
+    }
+
+    .team-card span {
+      color: var(--cyan-soft);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .team-card p {
+      color: var(--ink-dim);
+      font-size: 14.5px;
+    }
+
     /* ---------- games ---------- */
     .games-list {
       display: flex;
@@ -487,7 +530,6 @@
       justify-content: center;
       flex-shrink: 0;
       overflow: hidden;
-      /* İkonun taşmaması için */
     }
 
     .game-glyph svg,
@@ -572,6 +614,7 @@
     .contact-card span {
       color: var(--ink-dim);
       font-size: 13.5px;
+      word-break: break-all;
     }
 
     /* ---------- reveal on scroll ---------- */
@@ -633,7 +676,8 @@
         margin: 0 auto;
       }
 
-      .about-grid {
+      .about-grid,
+      .team-grid {
         grid-template-columns: 1fr;
       }
 
@@ -689,7 +733,6 @@
         <p class="lede">Emran Games; boş vakitlerini oyun yaparak dolduran iki arkadaşın kurduğu bağımsız bir oyun
           stüdyosu. Oyunlarımızı yayınlamaya başladık.</p>
         <div class="hero-ctas">
-          <!-- Mağaza sayfanızın URL'sine göre aşağıdaki href alanını güncelleyebilirsiniz -->
           <a class="btn btn-primary" href="https://play.google.com/store/apps/developer?id=EmranGames" target="_blank"
             rel="noopener">Google Play'de Takip Et</a>
           <a class="btn btn-ghost" href="#oyunlar">Oyunlarımıza Bak</a>
@@ -727,6 +770,28 @@
           <li><span>Platform</span><span>Google Play</span></li>
         </ul>
       </div>
+
+      <!-- Ekip Tanıtım Bölümü -->
+      <div class="team-grid">
+        <div class="team-card">
+          <h4>Emirhan Gören</h4>
+          <span>Game Developer</span>
+          <p>Küçük fikirleri eğlenceli ve sürükleyici oyun mekaniklerine dönüştürmek için kodlarla boğuşmaktan büyük
+            keyif alıyor.
+            Geliştirme sürecinin her aşamasında, oyuncularda o 'bir el daha oynayayım' hissini yakalamak ve kusursuz bir
+            deneyim
+            sunmak en büyük motivasyonu.</p>
+        </div>
+        <div class="team-card">
+          <h4>Yunus Yıldız</h4>
+          <span>Game Developer</span>
+          <p>Eğitim teknolojileri alanındaki akademik birikimini oyun geliştirme tutkusuyla harmanlıyor. Unity ve C# ile
+            2D/3D mobil
+            oyunların dünyalarını inşa ederken, hem projelerin teknik mimarisini kuruyor hem de oyuncuyu içine çeken
+            etkileşimli
+            mekanikleri hayata geçiriyor.</p>
+        </div>
+      </div>
     </section>
 
     <div class="wrap">
@@ -749,9 +814,7 @@
           <div>
             <span class="game-tag">Yayında</span>
             <h3>Dino Merge Idle</h3>
-            <!-- AÇIKLAMA ALANI: Oyuna ait kısa açıklamayı aşağıya yazın -->
             <p>Dino Merge Idle'a hoş geldiniz! Yeni dinozor arkadaşlar edinmeye hazır mısınız?
-
               Jurassic döneminin en mutlu takımını kurmak için sevimli dinozorları toplayın, birleştirin ve
               evrimleştirin.</p>
             <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.emrangames.dinomergeidle"
@@ -767,9 +830,7 @@
           <div>
             <span class="game-tag">Yayında</span>
             <h3>Jigsaw Journey</h3>
-            <!-- AÇIKLAMA ALANI: Oyuna ait kısa açıklamayı aşağıya yazın -->
             <p>Rahatlatıcı ve ilgi çekici bir resim bulmaca deneyimine hoş geldiniz!
-
               Her seviyenin yeni bir meydan okuma sunduğu, güzel resimlerle dolu bir dünyaya dalın. Amacınız basit:
               Dağınık parçaları
               birleştirerek resmin tamamını ortaya çıkarın. Ancak ilerledikçe, bulmacalar daha karmaşık ve çözmesi daha
@@ -793,7 +854,6 @@
         <p>Oyunlarımızla ilgili geri dönüşleriniz, işbirlikleri veya sadece merhaba demek için bize ulaşın.</p>
       </div>
       <div class="contact-grid">
-        <!-- Mağaza sayfanızın tam linkini eklersiniz -->
         <a class="contact-card" href="https://play.google.com/store/apps/developer?id=EmranGames" target="_blank"
           rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none">
@@ -807,8 +867,17 @@
               <path d="M3 6h18v12H3V6z" stroke="#d8bbff" stroke-width="1.6" />
               <path d="M3 7l9 6 9-6" stroke="#d8bbff" stroke-width="1.6" />
             </svg></div>
-          <h4>E-posta</h4>
+          <h4>Emirhan Gören</h4>
           <span>emirhangoren74@gmail.com</span>
+        </a>
+        <!-- Yunus Yıldız için eklenen yeni mail alanı -->
+        <a class="contact-card" href="mailto:yunusyldz5282@gmail.com">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 6h18v12H3V6z" stroke="#d8bbff" stroke-width="1.6" />
+              <path d="M3 7l9 6 9-6" stroke="#d8bbff" stroke-width="1.6" />
+            </svg></div>
+          <h4>Yunus Yıldız</h4>
+          <span>yunusyldz5282@gmail.com</span>
         </a>
       </div>
     </section>
